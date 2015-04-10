@@ -6,7 +6,6 @@ Miscellaneous Routines.
 # pylint: disable=C0111
 # pylint: disable=W0613
 # pylint: disable=C0103
-# pylint: disable=W0105
 # pylint: disable=R0902
 
 import struct
@@ -62,9 +61,9 @@ MATRIX_IDENTITY = (1, 0, 0, 1, 0, 0)
 
 
 def mult_matrix(m1, m0):
+    """Returns the multiplication of two matrices."""
     (a1, b1, c1, d1, e1, f1) = m1
     (a0, b0, c0, d0, e0, f0) = m0
-    """Returns the multiplication of two matrices."""
     return (
         a0*a1+c0*b1,
         b0*a1+d0*b1,
@@ -82,9 +81,9 @@ def translate_matrix(m, v):
 
 
 def apply_matrix_pt(m, v):
+    """Applies a matrix to a point."""
     (a, b, c, d, e, f) = m
     (x, y) = v
-    """Applies a matrix to a point."""
     return (a*x+c*y+e, b*x+d*y+f)
 
 
