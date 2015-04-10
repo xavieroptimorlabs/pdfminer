@@ -13,7 +13,6 @@ Converter
 # pylint: disable=R0201
 # pylint: disable=R0903
 # pylint: disable=R0902
-# pylint: disable=W0102
 # pylint: disable=R0912
 # pylint: disable=R0904
 
@@ -242,8 +241,12 @@ class HTMLConverter(PDFConverter):
     def __init__(self, rsrcmgr, outfp, codec='utf-8', pageno=1, laparams=None,
                  scale=1, fontscale=1.0, layoutmode='normal', showpageno=True,
                  pagemargin=50, imagewriter=None, debug=0,
-                 rect_colors={'curve': 'black', 'page': 'gray'},
-                 text_colors={'char': 'black'}):
+                 rect_colors='DEFAULT',
+                 text_colors='DEFAULT'):
+        if rect_colors == 'DEFAULT':
+            rect_colors = {'curve': 'black', 'page': 'gray'}
+        if text_colors == 'DEFAULT':
+            text_colors = {'char': 'black'}
         PDFConverter.__init__(
             self, rsrcmgr, outfp, codec=codec,
             pageno=pageno, laparams=laparams)

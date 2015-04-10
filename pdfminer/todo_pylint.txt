@@ -16,7 +16,6 @@ pylint: disable=R0913
 pylint: disable=R0914
 pylint: disable=R0915
 
-pylint: disable=W0102
 pylint: disable=W0105
 pylint: disable=W0120
 pylint: disable=W0141
