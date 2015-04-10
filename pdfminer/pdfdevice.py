@@ -18,8 +18,8 @@ from .utils import isnumber
 from .pdffont import PDFUnicodeNotDefined
 
 
-##  PDFDevice
-##
+# #  PDFDevice
+# #
 class PDFDevice(object):
 
     def __init__(self, rsrcmgr):
@@ -68,8 +68,8 @@ class PDFDevice(object):
         return
 
 
-##  PDFTextDevice
-##
+# #  PDFTextDevice
+# #
 class PDFTextDevice(PDFDevice):
 
     def render_string(self, textstate, seq):
@@ -137,8 +137,8 @@ class PDFTextDevice(PDFDevice):
         return 0
 
 
-##  TagExtractor
-##
+# #  TagExtractor
+# #
 class TagExtractor(PDFDevice):
 
     def __init__(self, rsrcmgr, outfp, codec='utf-8'):

@@ -16,6 +16,8 @@ pdffont
 # pylint: disable=W0141
 # pylint: disable=E1101
 # pylint: disable=W0613
+# pylint: disable=W0232
+# pylint: disable=W0710
 
 import sys
 import struct
@@ -65,9 +67,9 @@ def get_widths(seq):
                     widths[i] = w
                 r = []
     return widths
-#assert get_widths([1]) == {}
-#assert get_widths([1,2,3]) == {1:3, 2:3}
-#assert get_widths([1,[2,3],6,[7,8]]) == {1:2,2:3, 6:7,7:8}
+# assert get_widths([1]) == {}
+# assert get_widths([1,2,3]) == {1:3, 2:3}
+# assert get_widths([1,[2,3],6,[7,8]]) == {1:2,2:3, 6:7,7:8}
 
 
 def get_widths2(seq):
@@ -88,13 +90,13 @@ def get_widths2(seq):
                     widths[i] = (w, (vx, vy))
                 r = []
     return widths
-#assert get_widths2([1]) == {}
-#assert get_widths2([1,2,3,4,5]) == {1:(3, (4,5)), 2:(3, (4,5))}
-#assert get_widths2([1,[2,3,4,5],6,[7,8,9]]) == {1:(2, (3,4)), 6:(7, (8,9))}
+# assert get_widths2([1]) == {}
+# assert get_widths2([1,2,3,4,5]) == {1:(3, (4,5)), 2:(3, (4,5))}
+# assert get_widths2([1,[2,3,4,5],6,[7,8,9]]) == {1:(2, (3,4)), 6:(7, (8,9))}
 
 
-##  FontMetricsDB
-##
+# #  FontMetricsDB
+# #
 class FontMetricsDB(object):
 
     @classmethod
@@ -102,8 +104,8 @@ class FontMetricsDB(object):
         return FONT_METRICS[fontname]
 
 
-##  Type1FontHeaderParser
-##
+# #  Type1FontHeaderParser
+# #
 class Type1FontHeaderParser(PSStackParser):
 
     KEYWORD_BEGIN = KWD(b'begin')
@@ -147,10 +149,10 @@ NIBBLES = (
     '.', 'e', 'e-', None, '-')
 
 
-##  CFFFont
-##  (Format specified in Adobe Technical Note: #5176
-##   "The Compact Font Format Specification")
-##
+# #  CFFFont
+# #  (Format specified in Adobe Technical Note: #5176
+# #   "The Compact Font Format Specification")
+# #
 def getdict(data):
     d = {}
     fp = BytesIO(data)
@@ -382,9 +384,9 @@ class CFFFont(object):
             assert 0
         else:
             raise ValueError('unsupported charset format: %r' % vformat)
-        #print self.code2gid
-        #print self.name2gid
-        #assert 0
+        # print self.code2gid
+        # print self.name2gid
+        # assert 0
         return
 
     def getstr(self, sid):
@@ -393,8 +395,8 @@ class CFFFont(object):
         return self.string_index[sid-len(self.STANDARD_STRINGS)]
 
 
-##  TrueTypeFont
-##
+# #  TrueTypeFont
+# #
 class TrueTypeFont(object):
 
     class CMapNotFound(Exception):
@@ -479,8 +481,8 @@ class TrueTypeFont(object):
         return unicode_map
 
 
-##  Fonts
-##
+# #  Fonts
+# #
 class PDFFontError(PDFException):
     pass
 
@@ -611,7 +613,7 @@ class PDFType1Font(PDFSimpleFont):
         except KeyError:
             descriptor = dict_value(spec.get('FontDescriptor', {}))
             firstchar = int_value(spec.get('FirstChar', 0))
-            #lastchar = int_value(spec.get('LastChar', 255))
+            # lastchar = int_value(spec.get('LastChar', 255))
             widths = list_value(spec.get('Widths', [0]*256))
             widths = dict((i+firstchar, w) for (i, w) in enumerate(widths))
         PDFSimpleFont.__init__(self, descriptor, widths, spec)
@@ -640,7 +642,7 @@ class PDFType3Font(PDFSimpleFont):
 
     def __init__(self, rsrcmgr, spec):
         firstchar = int_value(spec.get('FirstChar', 0))
-        #lastchar = int_value(spec.get('LastChar', 0))
+        # lastchar = int_value(spec.get('LastChar', 0))
         widths = list_value(spec.get('Widths', [0]*256))
         widths = dict((i+firstchar, w) for (i, w) in enumerate(widths))
         if 'FontDescriptor' in spec:
@@ -763,7 +765,7 @@ class PDFCIDFont(PDFFont):
 def main(argv):
     for fname in argv[1:]:
         fp = file(fname, 'rb')
-        #font = TrueTypeFont(fname, fp)
+        # font = TrueTypeFont(fname, fp)
         font = CFFFont(fname, fp)
         print font
         fp.close()

@@ -13,8 +13,8 @@ import struct
 from sys import maxint as INF
 
 
-##  PNG Predictor
-##
+# #  PNG Predictor
+# #
 def apply_png_predictor(pred, colors, columns, bitspercomponent, data):
     if bitspercomponent != 8:
         # unsupported
@@ -56,8 +56,8 @@ def apply_png_predictor(pred, colors, columns, bitspercomponent, data):
     return buf
 
 
-##  Matrix operations
-##
+# #  Matrix operations
+# #
 MATRIX_IDENTITY = (1, 0, 0, 1, 0, 0)
 
 
@@ -95,8 +95,8 @@ def apply_matrix_norm(m, v):
     return (a*p+c*q, b*p+d*q)
 
 
-##  Utility functions
-##
+# #  Utility functions
+# #
 
 # isnumber
 def isnumber(x):
@@ -258,13 +258,13 @@ def matrix2str(m):
     return '[%.2f,%.2f,%.2f,%.2f, (%.2f,%.2f)]' % (a, b, c, d, e, f)
 
 
-##  Plane
-##
-##  A set-like data structure for objects placed on a plane.
-##  Can efficiently find objects in a certain rectangular area.
-##  It maintains two parallel lists of objects, each of
-##  which is sorted by its x or y coordinate.
-##
+# #  Plane
+# #
+# #  A set-like data structure for objects placed on a plane.
+# #  Can efficiently find objects in a certain rectangular area.
+# #  It maintains two parallel lists of objects, each of
+# #  which is sorted by its x or y coordinate.
+# #
 class Plane(object):
 
     def __init__(self, bbox, gridsize=50):

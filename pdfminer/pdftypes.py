@@ -34,8 +34,8 @@ LITERALS_CCITTFAX_DECODE = (LIT('CCITTFaxDecode'), LIT('CCF'))
 LITERALS_DCT_DECODE = (LIT('DCTDecode'), LIT('DCT'))
 
 
-##  PDF Objects
-##
+# #  PDF Objects
+# #
 class PDFObject(PSObject):
     pass
 
@@ -60,8 +60,8 @@ class PDFNotImplementedError(PDFException):
     pass
 
 
-##  PDFObjRef
-##
+# #  PDFObjRef
+# #
 class PDFObjRef(PDFObject):
 
     def __init__(self, doc, objid, _):
@@ -70,7 +70,7 @@ class PDFObjRef(PDFObject):
                 raise PDFValueError('PDF object id cannot be 0.')
         self.doc = doc
         self.objid = objid
-        #self.genno = genno  # Never used.
+        # self.genno = genno  # Never used.
         return
 
     def __repr__(self):
@@ -188,8 +188,8 @@ def stream_value(x):
     return x
 
 
-##  PDFStream type
-##
+# #  PDFStream type
+# #
 class PDFStream(PDFObject):
 
     def __init__(self, attrs, rawdata, decipher=None):

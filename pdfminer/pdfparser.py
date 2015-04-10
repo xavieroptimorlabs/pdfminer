@@ -23,14 +23,14 @@ from .pdftypes import int_value
 from .pdftypes import dict_value
 
 
-##  Exceptions
-##
+# #  Exceptions
+# #
 class PDFSyntaxError(PDFException):
     pass
 
 
-##  PDFParser
-##
+# #  PDFParser
+# #
 class PDFParser(PSStackParser):
 
     """
@@ -144,8 +144,8 @@ class PDFParser(PSStackParser):
         return
 
 
-##  PDFStreamParser
-##
+# #  PDFStreamParser
+# #
 class PDFStreamParser(PDFParser):
 
     """

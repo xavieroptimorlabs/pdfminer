@@ -55,8 +55,8 @@ from .utils import nunpack
 from .utils import decode_text
 
 
-##  Exceptions
-##
+# #  Exceptions
+# #
 class PDFNoValidXRef(PDFSyntaxError):
     pass
 
@@ -86,8 +86,8 @@ LITERAL_XREF = LIT('XRef')
 LITERAL_CATALOG = LIT('Catalog')
 
 
-##  XRefs
-##
+# #  XRefs
+# #
 class PDFBaseXRef(object):
 
     debug = False
@@ -105,8 +105,8 @@ class PDFBaseXRef(object):
         raise KeyError(objid)
 
 
-##  PDFXRef
-##
+# #  PDFXRef
+# #
 class PDFXRef(PDFBaseXRef):
 
     def __init__(self):
@@ -185,8 +185,8 @@ class PDFXRef(PDFBaseXRef):
             raise
 
 
-##  PDFXRefFallback
-##
+# #  PDFXRefFallback
+# #
 class PDFXRefFallback(PDFXRef):
 
     PDFOBJ_CUE = re.compile(r'^(\d+)\s+(\d+)\s+obj\b')
@@ -241,8 +241,8 @@ class PDFXRefFallback(PDFXRef):
         return
 
 
-##  PDFXRefStream
-##
+# #  PDFXRefStream
+# #
 class PDFXRefStream(PDFBaseXRef):
 
     debug = False
@@ -318,8 +318,8 @@ class PDFXRefStream(PDFBaseXRef):
             raise KeyError(objid)
 
 
-##  PDFSecurityHandler
-##
+# #  PDFSecurityHandler
+# #
 class PDFStandardSecurityHandler(object):
 
     PASSWORD_PADDING = (b'(\xbfN^Nu\x8aAd\x00NV\xff\xfa\x01\x08'
@@ -556,8 +556,8 @@ class PDFStandardSecurityHandlerV5(PDFStandardSecurityHandlerV4):
             self.key, mode=AES.MODE_CBC, IV=data[:16]).decrypt(data[16:])
 
 
-##  PDFDocument
-##
+# #  PDFDocument
+# #
 class PDFDocument(object):
 
     """PDFDocument object represents a PDF document.
@@ -615,7 +615,7 @@ class PDFDocument(object):
                 continue
             # If there's an encryption info, remember it.
             if 'Encrypt' in trailer:
-                #assert not self.encryption
+                # assert not self.encryption
                 self.encryption = (list_value(trailer['ID']),
                                    dict_value(trailer['Encrypt']))
                 self._initialize_password(password)

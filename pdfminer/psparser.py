@@ -23,8 +23,8 @@ from .utils import choplist
 STRICT = 0
 
 
-##  PS Exceptions
-##
+# #  PS Exceptions
+# #
 class PSException(Exception):
     pass
 
@@ -45,11 +45,11 @@ class PSValueError(PSException):
     pass
 
 
-##  Basic PostScript Types
-##
+# #  Basic PostScript Types
+# #
 
-##  PSObject
-##
+# #  PSObject
+# #
 class PSObject(object):
 
     """Base class for all PS or PDF-related data types."""
@@ -57,8 +57,8 @@ class PSObject(object):
     pass
 
 
-##  PSLiteral
-##
+# #  PSLiteral
+# #
 class PSLiteral(PSObject):
 
     """A class that represents a PostScript literal.
@@ -80,8 +80,8 @@ class PSLiteral(PSObject):
         return '/%s' % self.name
 
 
-##  PSKeyword
-##
+# #  PSKeyword
+# #
 class PSKeyword(PSObject):
 
     """A class that represents a PostScript keyword.
@@ -102,8 +102,8 @@ class PSKeyword(PSObject):
         return self.name
 
 
-##  PSSymbolTable
-##
+# #  PSSymbolTable
+# #
 class PSSymbolTable(object):
 
     """A utility class for storing PSLiteral/PSKeyword objects.
@@ -154,8 +154,8 @@ def keyword_name(x):
     return x.name
 
 
-##  PSBaseParser
-##
+# #  PSBaseParser
+# #
 EOL = re.compile(br'[\r\n]')
 SPC = re.compile(br'\s')
 NONSPC = re.compile(br'\S')
@@ -350,7 +350,7 @@ class PSBaseParser(object):
         self._curtoken += s[i:j]
         self._parse1 = self._parse_main
         # We ignore comments.
-        #self._tokens.append(self._curtoken)
+        # self._tokens.append(self._curtoken)
         return j
 
     def _parse_literal(self, s, i):
@@ -527,8 +527,8 @@ class PSBaseParser(object):
         return token
 
 
-##  PSStackParser
-##
+# #  PSStackParser
+# #
 class PSStackParser(PSBaseParser):
 
     def __init__(self, fp):
@@ -598,7 +598,7 @@ class PSStackParser(PSBaseParser):
         """
         while not self.results:
             (pos, token) = self.nexttoken()
-            #print (pos,token), (self.curtype, self.curstack)
+            # print (pos,token), (self.curtype, self.curstack)
             if isinstance(token, (int, long, float, bool, str, PSLiteral)):
                 # normal token
                 self.push((pos, token))
@@ -660,8 +660,8 @@ class PSStackParser(PSBaseParser):
 import unittest
 
 
-##  Simplistic Test cases
-##
+# #  Simplistic Test cases
+# #
 class TestPSBaseParser(unittest.TestCase):
 
     TESTDATA = br'''%!PS
