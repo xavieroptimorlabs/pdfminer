@@ -20,7 +20,6 @@ Bugs: uncompressed mode untested.
 # pylint: disable=R0902
 # pylint: disable=R0201
 # pylint: disable=W0212
-# pylint: disable=W0622
 # pylint: disable=F0401
 # pylint: disable=R0904
 
@@ -704,9 +703,9 @@ class TestCCITTG4Parser(unittest.TestCase):
 # #
 class CCITTFaxDecoder(CCITTG4Parser):
 
-    def __init__(self, width, bytealign=False, reversed=False):
+    def __init__(self, width, bytealign=False, is_reversed=False):
         CCITTG4Parser.__init__(self, width, bytealign=bytealign)
-        self.reversed = reversed
+        self.reversed = is_reversed
         self._buf = b''
         return
 
@@ -714,13 +713,13 @@ class CCITTFaxDecoder(CCITTG4Parser):
         return self._buf
 
     def output_line(self, y, bits):
-        bytes = array.array('B', [0]*((len(bits)+7)//8))
+        vbytes = array.array('B', [0]*((len(bits)+7)//8))
         if self.reversed:
             bits = [1-b for b in bits]
         for (i, b) in enumerate(bits):
             if b:
-                bytes[i//8] += (128, 64, 32, 16, 8, 4, 2, 1)[i % 8]
-        self._buf += bytes.tostring()
+                vbytes[i//8] += (128, 64, 32, 16, 8, 4, 2, 1)[i % 8]
+        self._buf += vbytes.tostring()
         return
 
 
@@ -728,9 +727,10 @@ def ccittfaxdecode(data, params):
     K = params.get('K')
     cols = params.get('Columns')
     bytealign = params.get('EncodedByteAlign')
-    reversed = params.get('BlackIs1')
+    is_reversed = params.get('BlackIs1')
     if K == -1:
-        parser = CCITTFaxDecoder(cols, bytealign=bytealign, reversed=reversed)
+        parser = CCITTFaxDecoder(
+            cols, bytealign=bytealign, is_reversed=is_reversed)
     else:
         raise ValueError(K)
     parser.feedbytes(data)
