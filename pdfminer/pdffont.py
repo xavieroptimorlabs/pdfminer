@@ -7,7 +7,6 @@ pdffont
 # pylint: disable=C0103
 # pylint: disable=W0632
 # pylint: disable=R0903
-# pylint: disable=C0202
 # pylint: disable=R0912
 # pylint: disable=R0902
 # pylint: disable=R0914
@@ -100,7 +99,7 @@ def get_widths2(seq):
 class FontMetricsDB(object):
 
     @classmethod
-    def get_metrics(klass, fontname):
+    def get_metrics(cls, fontname):
         return FONT_METRICS[fontname]
 
 

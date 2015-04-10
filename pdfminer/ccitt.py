@@ -15,7 +15,6 @@ Bugs: uncompressed mode untested.
 
 # pylint: disable=C0111
 # pylint: disable=C0103
-# pylint: disable=C0202
 # pylint: disable=E0203
 # pylint: disable=W0201
 # pylint: disable=E1101
@@ -39,7 +38,7 @@ class BitParser(object):
         return
 
     @classmethod
-    def add(klass, root, v, bits):
+    def add(cls, root, v, bits):
         p = root
         b = None
         for i in xrange(len(bits)):

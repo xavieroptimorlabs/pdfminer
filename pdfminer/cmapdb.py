@@ -16,7 +16,6 @@ More information is available on the Adobe website:
 # pylint: disable=W0613
 # pylint: disable=W1201
 # pylint: disable=R0903
-# pylint: disable=C0202
 # pylint: disable=W0120
 # pylint: disable=E1101
 # pylint: disable=R0911
@@ -242,7 +241,7 @@ class CMapDB(object):
         pass
 
     @classmethod
-    def _load_data(klass, name):
+    def _load_data(cls, name):
         filename = '%s.pickle.gz' % name
         logging.info('loading: %r' % name)
         cmap_paths = (os.environ.get('CMAP_PATH', '/usr/share/pdfminer/'),
@@ -259,27 +258,27 @@ class CMapDB(object):
             raise CMapDB.CMapNotFound(name)
 
     @classmethod
-    def get_cmap(klass, name):
+    def get_cmap(cls, name):
         if name == 'Identity-H':
             return IdentityCMap(WMode=0)
         elif name == 'Identity-V':
             return IdentityCMap(WMode=1)
         try:
-            return klass._cmap_cache[name]
+            return cls._cmap_cache[name]
         except KeyError:
             pass
-        data = klass._load_data(name)
-        klass._cmap_cache[name] = cmap = PyCMap(name, data)
+        data = cls._load_data(name)
+        cls._cmap_cache[name] = cmap = PyCMap(name, data)
         return cmap
 
     @classmethod
-    def get_unicode_map(klass, name, vertical=False):
+    def get_unicode_map(cls, name, vertical=False):
         try:
-            return klass._umap_cache[name][vertical]
+            return cls._umap_cache[name][vertical]
         except KeyError:
             pass
-        data = klass._load_data('to-unicode-%s' % name)
-        klass._umap_cache[name] = umaps = [
+        data = cls._load_data('to-unicode-%s' % name)
+        cls._umap_cache[name] = umaps = [
             PyUnicodeMap(name, data, v)
             for v in (False, True)]
         return umaps[vertical]

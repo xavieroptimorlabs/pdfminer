@@ -5,7 +5,6 @@ encodingdb
 # pylint: disable=C0103
 # pylint: disable=C0111
 # pylint: disable=R0903
-# pylint: disable=C0202
 
 import re
 from .psparser import PSLiteral
@@ -55,8 +54,8 @@ class EncodingDB(object):
     }
 
     @classmethod
-    def get_encoding(klass, name, diff=None):
-        cid2unicode = klass.encodings.get(name, klass.std2unicode)
+    def get_encoding(cls, name, diff=None):
+        cid2unicode = cls.encodings.get(name, cls.std2unicode)
         if diff:
             cid2unicode = cid2unicode.copy()
             cid = 0

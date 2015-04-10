@@ -4,7 +4,6 @@ pdfpage
 """
 
 # pylint: disable=R0902
-# pylint: disable=C0202
 # pylint: disable=C0111
 # pylint: disable=C0103
 # pylint: disable=W1201
@@ -89,7 +88,7 @@ class PDFPage(object):
     INHERITABLE_ATTRS = set(['Resources', 'MediaBox', 'CropBox', 'Rotate'])
 
     @classmethod
-    def create_pages(klass, document):
+    def create_pages(cls, document):
         def search(obj, parent):
             if isinstance(obj, int):
                 objid = obj
@@ -98,23 +97,23 @@ class PDFPage(object):
                 objid = obj.objid
                 tree = dict_value(obj).copy()
             for (k, v) in parent.iteritems():
-                if k in klass.INHERITABLE_ATTRS and k not in tree:
+                if k in cls.INHERITABLE_ATTRS and k not in tree:
                     tree[k] = v
             if tree.get('Type') is LITERAL_PAGES and 'Kids' in tree:
-                if klass.debug:
+                if cls.debug:
                     logging.info('Pages: Kids=%r' % tree['Kids'])
                 for c in list_value(tree['Kids']):
                     for x in search(c, tree):
                         yield x
             elif tree.get('Type') is LITERAL_PAGE:
-                if klass.debug:
+                if cls.debug:
                     logging.info('Page: %r' % tree)
                 yield (objid, tree)
         pages = False
         if 'Pages' in document.catalog:
             for (objid, tree) in search(
                     document.catalog['Pages'], document.catalog):
-                yield klass(document, objid, tree)
+                yield cls(document, objid, tree)
                 pages = True
         if not pages:
             # fallback when /Pages is missing.
@@ -124,13 +123,13 @@ class PDFPage(object):
                         obj = document.getobj(objid)
                         if isinstance(obj, dict) and \
                                 obj.get('Type') is LITERAL_PAGE:
-                            yield klass(document, objid, obj)
+                            yield cls(document, objid, obj)
                     except PDFObjectNotFound:
                         pass
         return
 
     @classmethod
-    def get_pages(klass, fp,
+    def get_pages(cls, fp,
                   pagenos=None, maxpages=0, password=b'',
                   caching=True, check_extractable=True):
         # Create a PDF parser object associated with the file object.
@@ -142,7 +141,7 @@ class PDFPage(object):
             raise PDFTextExtractionNotAllowed(
                 'Text extraction is not allowed: %r' % fp)
         # Process each page contained in the document.
-        for (pageno, page) in enumerate(klass.create_pages(doc)):
+        for (pageno, page) in enumerate(cls.create_pages(doc)):
             if pagenos and (pageno not in pagenos):
                 continue
             yield page
