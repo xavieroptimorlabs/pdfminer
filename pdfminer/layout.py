@@ -9,7 +9,6 @@ Layout
 # pylint: disable=R0913
 # pylint: disable=R0201
 # pylint: disable=W0613
-# pylint: disable=W0201
 # pylint: disable=R0914
 # pylint: disable=R0901
 # pylint: disable=W0511
@@ -98,6 +97,13 @@ class LTText(object):
 class LTComponent(LTItem):
 
     def __init__(self, bbox):
+        self.x0 = None
+        self.y0 = None
+        self.x1 = None
+        self.y1 = None
+        self.width = None
+        self.height = None
+        self.bbox = None
         LTItem.__init__(self)
         self.set_bbox(bbox)
         return

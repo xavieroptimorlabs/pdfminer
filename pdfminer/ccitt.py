@@ -15,7 +15,6 @@ Bugs: uncompressed mode untested.
 
 # pylint: disable=C0111
 # pylint: disable=C0103
-# pylint: disable=W0201
 # pylint: disable=E1101
 # pylint: disable=R0902
 # pylint: disable=R0201
@@ -33,6 +32,7 @@ class BitParser(object):
 
     def __init__(self):
         self._pos = 0
+        self._state = None
         return
 
     @classmethod
@@ -333,6 +333,14 @@ class CCITTG4Parser(BitParser):
         pass
 
     def __init__(self, width, bytealign=False):
+        self._n1 = None
+        self._n2 = None
+        self._y = None
+        self._accept = None
+        self._refline = None
+        self._curline = None
+        self._color = None
+        self._curpos = None
         BitParser.__init__(self)
         self.width = width
         self.bytealign = bytealign

@@ -6,7 +6,6 @@ pdfdocument
 # pylint: disable=C0111
 # pylint: disable=R0201
 # pylint: disable=C0103
-# pylint: disable=W0201
 # pylint: disable=R0902
 # pylint: disable=E1101
 # pylint: disable=W0613
@@ -249,6 +248,7 @@ class PDFXRefStream(PDFBaseXRef):
         self.entlen = None
         self.fl1 = self.fl2 = self.fl3 = None
         self.ranges = []
+        self.trailer = None
         return
 
     def __repr__(self):
@@ -327,6 +327,26 @@ class PDFStandardSecurityHandler(object):
         self.docid = docid
         self.param = param
         self.password = password
+        self.v = None
+        self.r = None
+        self.p = None
+        self.o = None
+        self.u = None
+        self.length = None
+        self.key = None
+        self.cf = None
+        self.stmf = None
+        self.strf = None
+        self.encrypt_metadata = None
+        self.cfm = None
+        self.oe = None
+        self.ue = None
+        self.o_hash = None
+        self.o_validation_salt = None
+        self.o_key_salt = None
+        self.u_hash = None
+        self.u_validation_salt = None
+        self.u_key_salt = None
         self.init()
         return
 

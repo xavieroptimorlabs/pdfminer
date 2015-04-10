@@ -7,7 +7,6 @@ pdfinterp
 # pylint: disable=R0903
 # pylint: disable=W0232
 # pylint: disable=R0902
-# pylint: disable=W0201
 # pylint: disable=R0201
 # pylint: disable=R0912
 # pylint: disable=C0103
@@ -15,8 +14,6 @@ pdfinterp
 # pylint: disable=R0904
 # pylint: disable=R0913
 # pylint: disable=W0613
-# pylint: disable=W0710
-# spylint: disable=W0142
 # pylint: disable=W0511
 
 import re
@@ -76,6 +73,10 @@ LITERAL_IMAGE = LIT('Image')
 class PDFTextState(object):
 
     def __init__(self):
+        # self.matrix is set
+        self.matrix = (None, None, None, None, None, None)
+        # self.linematrix is set
+        self.linematrix = (0, 0)
         self.font = None
         self.fontsize = 0
         self.charspace = 0
@@ -85,8 +86,6 @@ class PDFTextState(object):
         self.render = 0
         self.rise = 0
         self.reset()
-        # self.matrix is set
-        # self.linematrix is set
         return
 
     def __repr__(self):
@@ -340,6 +339,18 @@ class PDFPageInterpreter(object):
     debug = 0
 
     def __init__(self, rsrcmgr, device):
+        self.resources = None
+        self.fontmap = None
+        self.xobjmap = None
+        self.csmap = None
+        self.gstack = None
+        self.argstack = None
+        self.textstate = None
+        self.graphicstate = None
+        self.ctm = None
+        self.curpath = None
+        self.scs = None
+        self.ncs = None
         self.rsrcmgr = rsrcmgr
         self.device = device
         return
@@ -912,6 +923,7 @@ class PDFPageInterpreter(object):
                         if self.debug:
                             logging.debug('exec: %s %r', name, args)
                         if len(args) == nargs:
+                            # pylint: disable=W0142
                             func(*args)
                     else:
                         if self.debug:

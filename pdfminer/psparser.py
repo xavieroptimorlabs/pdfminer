@@ -8,7 +8,6 @@ psparser
 # pylint: disable=C0103
 # pylint: disable=R0902
 # pylint: disable=R0201
-# pylint: disable=W0201
 # pylint: disable=W0613
 # pylint: disable=R0911
 # pylint: disable=R0912
@@ -181,6 +180,16 @@ class PSBaseParser(object):
     debug = 0
 
     def __init__(self, fp):
+        self._tokens = None
+        self._curtokenpos = None
+        self._curtoken = None
+        self.paren = None
+        self.bufpos = None
+        self.buf = None
+        self.hex = None
+        self.oct = None
+        self._parse1 = None
+        self.charpos = None
         self.fp = fp
         self.seek(0)
         return
@@ -531,6 +540,10 @@ class PSBaseParser(object):
 class PSStackParser(PSBaseParser):
 
     def __init__(self, fp):
+        self.context = None
+        self.results = None
+        self.curtype = None
+        self.curstack = None
         PSBaseParser.__init__(self, fp)
         self.reset()
         return

@@ -5,7 +5,6 @@ Converter
 
 # pylint: disable=C0111
 # pylint: disable=C0103
-# pylint: disable=W0201
 # pylint: disable=W0613
 # pylint: disable=E1101
 # pylint: disable=R0913
@@ -44,6 +43,7 @@ from .utils import bbox2str
 class PDFLayoutAnalyzer(PDFTextDevice):
 
     def __init__(self, rsrcmgr, pageno=1, laparams=None):
+        self.cur_item = None
         PDFTextDevice.__init__(self, rsrcmgr)
         self.pageno = pageno
         self.laparams = laparams

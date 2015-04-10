@@ -384,7 +384,7 @@ class CMapParser(PSStackParser):
             self.popall()
             return
         if token is self.KEYWORD_ENDCIDCHAR:
-            objs = [obj for (__, obj) in self.popall()]
+            objs = [obj[1] for obj in self.popall()]
             for (cid, code) in choplist(2, objs):
                 if isinstance(code, str) and isinstance(cid, str):
                     self.cmap.add_code2cid(code, nunpack(cid))
@@ -394,7 +394,7 @@ class CMapParser(PSStackParser):
             self.popall()
             return
         if token is self.KEYWORD_ENDBFRANGE:
-            objs = [obj for (__, obj) in self.popall()]
+            objs = [obj[1] for obj in self.popall()]
             for (s, e, code) in choplist(3, objs):
                 if (not isinstance(s, str) or not isinstance(e, str) or
                         len(s) != len(e)):
@@ -419,7 +419,7 @@ class CMapParser(PSStackParser):
             self.popall()
             return
         if token is self.KEYWORD_ENDBFCHAR:
-            objs = [obj for (__, obj) in self.popall()]
+            objs = [obj[1] for obj in self.popall()]
             for (cid, code) in choplist(2, objs):
                 if isinstance(cid, str) and isinstance(code, str):
                     self.cmap.add_cid2unichr(nunpack(cid), code)

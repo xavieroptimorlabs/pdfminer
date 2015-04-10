@@ -1,14 +1,28 @@
+# Recomadation are less important.
+pylint: disable=W0212
+pylint: disable=W0221
+pylint: disable=W0232
+pylint: disable=W0511
+pylint: disable=W0613
+pylint: disable=W0632
+
+
+# comment to add...
+pylint: disable=C0111 
+
+# bad naming, a longer task
+pylint: disable=C0103 
+
 Explicit warning in code :
  - cmapdb.py W0120 (we could probably remove the else raise here)
+ - pdfinterp.py W0142 : Used * or ** magic
 
 
-pylint: disable=C0103
-pylint: disable=C0111
-
+# probably due to imported stuff, I will check later
 pylint: disable=E1101
-
 pylint: disable=F0401
 
+# Recomadation are less important.
 pylint: disable=R0201
 pylint: disable=R0901
 pylint: disable=R0902
@@ -20,12 +34,4 @@ pylint: disable=R0913
 pylint: disable=R0914
 pylint: disable=R0915
 
-pylint: disable=W0142 pdfinterp.py, Used * or ** magic
-pylint: disable=W0201
-pylint: disable=W0212
-pylint: disable=W0221
-pylint: disable=W0232
-pylint: disable=W0511
-pylint: disable=W0613
-pylint: disable=W0632
-pylint: disable=W0710
+
