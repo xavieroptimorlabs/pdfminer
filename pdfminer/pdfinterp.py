@@ -5,7 +5,6 @@ pdfinterp
 
 # pylint: disable=C0111
 # pylint: disable=R0903
-# pylint: disable=W0232
 # pylint: disable=R0902
 # pylint: disable=R0201
 # pylint: disable=R0912

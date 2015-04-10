@@ -1,37 +1,31 @@
-# Recomadation are less important.
-pylint: disable=W0212
-pylint: disable=W0221
-pylint: disable=W0232
-pylint: disable=W0511
-pylint: disable=W0613
-pylint: disable=W0632
+# #### Another task I should do
+W0212 : Access to a protected member, TODO change to not protected.
+W0120 - cmapdb.py  (we could probably remove the else raise here, but we have to explain it to the owner)
+F0401 : install the module missing on my workstattion and test again
+E1101 : verify they are all caused by external module, fix the internal one if exists.
+# #### Another task I should do, but it's change the interface for users
+C0103 : bad naming pattern, next long task, will change the interface.
+R0201 : Method could be a function (can be fixed, but will change the interface...)
 
+# #### Comment to add:
+C0111 : comment to add... better if the owner do them.
+# #### Another
+W0511 : Todo comments
 
-# comment to add...
-pylint: disable=C0111 
-
-# bad naming, a longer task
-pylint: disable=C0103 
-
-Explicit warning in code :
- - cmapdb.py W0120 (we could probably remove the else raise here)
- - pdfinterp.py W0142 : Used * or ** magic
-
-
-# probably due to imported stuff, I will check later
-pylint: disable=E1101
-pylint: disable=F0401
-
-# Recomadation are less important.
-pylint: disable=R0201
-pylint: disable=R0901
-pylint: disable=R0902
-pylint: disable=R0903
-pylint: disable=R0904
-pylint: disable=R0911
-pylint: disable=R0912
-pylint: disable=R0913
-pylint: disable=R0914
-pylint: disable=R0915
-
-
+# #### Design issue, can be ignored
+# Major design issue
+W0142 - pdfinterp.py : Used * or ** magic, design isssue
+# Medium design issue
+W0221 : Arguments number : design issue
+W0613 : Unused argument  : design issue
+W0632 : assignement tuple on unknown : design issue
+# Small design issue, just ignore them.
+R0901: Too many ancestors
+R0902: Too many instance attributes
+R0903: Too few public methods
+R0904: Too many public methods
+R0911: Too many return statements
+R0912: Too many branches
+R0913: Too many arguments
+R0914: Too many local variables
+R0915: Too many statements

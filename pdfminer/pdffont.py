@@ -14,7 +14,6 @@ pdffont
 # pylint: disable=R0201
 # pylint: disable=E1101
 # pylint: disable=W0613
-# pylint: disable=W0232
 
 import sys
 import struct
