@@ -2,7 +2,6 @@
 """
 encodingdb
 """
-# pylint: disable=F0401
 # pylint: disable=C0103
 # pylint: disable=C0111
 # pylint: disable=R0903

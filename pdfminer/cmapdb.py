@@ -10,7 +10,6 @@ More information is available on the Adobe website:
   http://opensource.adobe.com/wiki/display/cmap/CMap+Resources
 
 """
-# pylint: disable=F0401
 # pylint: disable=C0111
 # pylint: disable=C0103
 # pylint: disable=R0201

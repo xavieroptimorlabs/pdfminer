@@ -3,7 +3,6 @@
 pdfpage
 """
 
-# pylint: disable=F0401
 # pylint: disable=R0902
 # pylint: disable=C0202
 # pylint: disable=C0111
