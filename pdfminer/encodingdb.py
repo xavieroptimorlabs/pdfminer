@@ -1,4 +1,13 @@
 #!/usr/bin/env python
+"""
+encodingdb
+"""
+# pylint: disable=F0401
+# pylint: disable=C0103
+# pylint: disable=C0111
+# pylint: disable=R0903
+# pylint: disable=C0202
+
 import re
 from .psparser import PSLiteral
 from .glyphlist import glyphname2unicode
@@ -8,8 +17,8 @@ from .latin_enc import ENCODING
 STRIP_NAME = re.compile(r'[0-9]+')
 
 
-##  name2unicode
-##
+# #  name2unicode
+# #
 def name2unicode(name):
     """Converts Adobe glyph names to Unicode numbers."""
     if name in glyphname2unicode:
@@ -20,8 +29,8 @@ def name2unicode(name):
     return unichr(int(m.group(0)))
 
 
-##  EncodingDB
-##
+# #  EncodingDB
+# #
 class EncodingDB(object):
 
     std2unicode = {}

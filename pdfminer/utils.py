@@ -2,6 +2,13 @@
 """
 Miscellaneous Routines.
 """
+
+# pylint: disable=C0111
+# pylint: disable=W0613
+# pylint: disable=C0103
+# pylint: disable=W0105
+# pylint: disable=R0902
+
 import struct
 from sys import maxint as INF
 
@@ -58,9 +65,13 @@ def mult_matrix(m1, m0):
     (a1, b1, c1, d1, e1, f1) = m1
     (a0, b0, c0, d0, e0, f0) = m0
     """Returns the multiplication of two matrices."""
-    return (a0*a1+c0*b1,    b0*a1+d0*b1,
-            a0*c1+c0*d1,    b0*c1+d0*d1,
-            a0*e1+c0*f1+e0, b0*e1+d0*f1+f0)
+    return (
+        a0*a1+c0*b1,
+        b0*a1+d0*b1,
+        a0*c1+c0*d1,
+        b0*c1+d0*d1,
+        a0*e1+c0*f1+e0,
+        b0*e1+d0*f1+f0)
 
 
 def translate_matrix(m, v):
@@ -79,7 +90,7 @@ def apply_matrix_pt(m, v):
 
 def apply_matrix_norm(m, v):
     """Equivalent to apply_matrix_pt(M, (p,q)) - apply_matrix_pt(M, (0,0))"""
-    (a, b, c, d, e, f) = m
+    (a, b, c, d, _, _) = m
     (p, q) = v
     return (a*p+c*q, b*p+d*q)
 
@@ -90,6 +101,7 @@ def apply_matrix_norm(m, v):
 # isnumber
 def isnumber(x):
     return isinstance(x, (int, long, float))
+
 
 # uniq
 def uniq(objs):
@@ -231,7 +243,8 @@ def decode_text(s):
 # enc
 def enc(x, codec='ascii'):
     """Encodes a string for SGML/XML/HTML"""
-    x = x.replace('&', '&amp;').replace('>', '&gt;').replace('<', '&lt;').replace('"', '&quot;')
+    x = x.replace('&', '&amp;').replace('>', '&gt;')\
+        .replace('<', '&lt;').replace('"', '&quot;')
     return x.encode(codec, 'xmlcharrefreplace')
 
 
@@ -263,10 +276,10 @@ class Plane(object):
         return
 
     def __repr__(self):
-        return ('<Plane objs=%r>' % list(self))
+        return '<Plane objs=%r>' % list(self)
 
     def __iter__(self):
-        return ( obj for obj in self._seq if obj in self._objs )
+        return (obj for obj in self._seq if obj in self._objs)
 
     def __len__(self):
         return len(self._objs)
@@ -277,7 +290,8 @@ class Plane(object):
     def _getrange(self, bbox):
         (x0, y0, x1, y1) = bbox
         if (x1 <= self.x0 or self.x1 <= x0 or
-            y1 <= self.y0 or self.y1 <= y0): return
+                y1 <= self.y0 or self.y1 <= y0):
+            return
         x0 = max(self.x0, x0)
         y0 = max(self.y0, y0)
         x1 = min(self.x1, x1)
@@ -328,7 +342,7 @@ class Plane(object):
                     continue
                 done.add(obj)
                 if (obj.x1 <= x0 or x1 <= obj.x0 or
-                    obj.y1 <= y0 or y1 <= obj.y0):
+                        obj.y1 <= y0 or y1 <= obj.y0):
                     continue
                 yield obj
         return

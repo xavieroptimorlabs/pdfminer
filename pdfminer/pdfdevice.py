@@ -1,4 +1,15 @@
 #!/usr/bin/env python
+"""
+pdfdevice
+"""
+
+# pylint: disable=C0111
+# pylint: disable=R0201
+# pylint: disable=W0613
+# pylint: disable=R0913
+# pylint: disable=R0914
+# pylint: disable=C0103
+
 from .utils import mult_matrix
 from .utils import translate_matrix
 from .utils import enc
@@ -82,8 +93,9 @@ class PDFTextDevice(PDFDevice):
                 scaling, charspace, wordspace, rise, dxscale)
         return
 
-    def render_string_horizontal(self, seq, matrix, pos,
-                                 font, fontsize, scaling, charspace, wordspace, rise, dxscale):
+    def render_string_horizontal(
+            self, seq, matrix, pos,
+            font, fontsize, scaling, charspace, wordspace, rise, dxscale):
         (x, y) = pos
         needcharspace = False
         for obj in seq:
@@ -101,8 +113,9 @@ class PDFTextDevice(PDFDevice):
                     needcharspace = True
         return (x, y)
 
-    def render_string_vertical(self, seq, matrix, pos,
-                               font, fontsize, scaling, charspace, wordspace, rise, dxscale):
+    def render_string_vertical(
+            self, seq, matrix, pos,
+            font, fontsize, scaling, charspace, wordspace, rise, dxscale):
         (x, y) = pos
         needcharspace = False
         for obj in seq:

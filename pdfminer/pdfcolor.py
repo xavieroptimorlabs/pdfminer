@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+"""
+pdfcolor
+"""
+
+# pylint: disable=C0111
+# pylint: disable=R0903
+
 from .psparser import LIT
 
 
@@ -17,7 +24,8 @@ class PDFColorSpace(object):
         return
 
     def __repr__(self):
-        return '<PDFColorSpace: %s, ncomponents=%d>' % (self.name, self.ncomponents)
+        return '<PDFColorSpace: %s, ncomponents=%d>' % (
+            self.name, self.ncomponents)
 
 
 PREDEFINED_COLORSPACE = dict(

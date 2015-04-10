@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+"""
+lzw
+"""
+
+# pylint: disable=C0111
+# pylint: disable=C0103
+
 from io import BytesIO
 
 

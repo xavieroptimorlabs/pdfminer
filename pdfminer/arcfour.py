@@ -6,9 +6,13 @@ This code is in the public domain.
 
 """
 
+# pylint: disable=R0903
+# pylint: disable=C0103
+# pylint: disable=C0111
 
-##  Arcfour
-##
+
+# #  Arcfour
+# #
 class Arcfour(object):
 
     """
@@ -43,7 +47,7 @@ class Arcfour(object):
             r += chr(ord(c) ^ k)
         (self.i, self.j) = (i, j)
         return r
-    
+
     encrypt = decrypt = process
 
 new = Arcfour

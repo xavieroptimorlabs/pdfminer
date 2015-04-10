@@ -10,6 +10,21 @@ More information is available on the Adobe website:
   http://opensource.adobe.com/wiki/display/cmap/CMap+Resources
 
 """
+# pylint: disable=F0401
+# pylint: disable=C0111
+# pylint: disable=C0103
+# pylint: disable=R0201
+# pylint: disable=W0613
+# pylint: disable=W1201
+# pylint: disable=R0903
+# pylint: disable=C0202
+# pylint: disable=W0120
+# pylint: disable=E1101
+# pylint: disable=R0911
+# pylint: disable=R0912
+# pylint: disable=R0914
+# pylint: disable=R0915
+# pylint: disable=W0612
 
 import sys
 import os
@@ -36,8 +51,8 @@ class CMapError(Exception):
     pass
 
 
-##  CMapBase
-##
+# #  CMapBase
+# #
 class CMapBase(object):
 
     debug = 0
@@ -63,8 +78,8 @@ class CMapBase(object):
         return
 
 
-##  CMap
-##
+# #  CMap
+# #
 class CMap(CMapBase):
 
     def __init__(self, **kwargs):
@@ -117,8 +132,8 @@ class CMap(CMapBase):
         return
 
 
-##  IdentityCMap
-##
+# #  IdentityCMap
+# #
 class IdentityCMap(CMapBase):
 
     def decode(self, code):
@@ -129,8 +144,8 @@ class IdentityCMap(CMapBase):
             return ()
 
 
-##  UnicodeMap
-##
+# #  UnicodeMap
+# #
 class UnicodeMap(CMapBase):
 
     def __init__(self, **kwargs):
@@ -152,8 +167,8 @@ class UnicodeMap(CMapBase):
         return
 
 
-##  FileCMap
-##
+# #  FileCMap
+# #
 class FileCMap(CMap):
 
     def add_code2cid(self, code, cid):
@@ -172,8 +187,8 @@ class FileCMap(CMap):
         return
 
 
-##  FileUnicodeMap
-##
+# #  FileUnicodeMap
+# #
 class FileUnicodeMap(UnicodeMap):
 
     def add_cid2unichr(self, cid, code):
@@ -191,8 +206,8 @@ class FileUnicodeMap(UnicodeMap):
         return
 
 
-##  PyCMap
-##
+# #  PyCMap
+# #
 class PyCMap(CMap):
 
     def __init__(self, name, module):
@@ -203,8 +218,8 @@ class PyCMap(CMap):
         return
 
 
-##  PyUnicodeMap
-##
+# #  PyUnicodeMap
+# #
 class PyUnicodeMap(UnicodeMap):
 
     def __init__(self, name, module, vertical):
@@ -217,8 +232,8 @@ class PyUnicodeMap(UnicodeMap):
         return
 
 
-##  CMapDB
-##
+# #  CMapDB
+# #
 class CMapDB(object):
 
     _cmap_cache = {}
@@ -265,12 +280,14 @@ class CMapDB(object):
         except KeyError:
             pass
         data = klass._load_data('to-unicode-%s' % name)
-        klass._umap_cache[name] = umaps = [PyUnicodeMap(name, data, v) for v in (False, True)]
+        klass._umap_cache[name] = umaps = [
+            PyUnicodeMap(name, data, v)
+            for v in (False, True)]
         return umaps[vertical]
 
 
-##  CMapParser
-##
+# #  CMapParser
+# #
 class CMapParser(PSStackParser):
 
     def __init__(self, cmap, fp):
@@ -303,7 +320,7 @@ class CMapParser(PSStackParser):
     KEYWORD_ENDBFCHAR = KWD(b'endbfchar')
     KEYWORD_BEGINNOTDEFRANGE = KWD(b'beginnotdefrange')
     KEYWORD_ENDNOTDEFRANGE = KWD(b'endnotdefrange')
-    
+
     def do_keyword(self, pos, token):
         if token is self.KEYWORD_BEGINCMAP:
             self._in_cmap = True
@@ -347,7 +364,7 @@ class CMapParser(PSStackParser):
             objs = [obj for (__, obj) in self.popall()]
             for (s, e, cid) in choplist(3, objs):
                 if (not isinstance(s, str) or not isinstance(e, str) or
-                   not isinstance(cid, int) or len(s) != len(e)):
+                        not isinstance(cid, int) or len(s) != len(e)):
                     continue
                 sprefix = s[:-4]
                 eprefix = e[:-4]
@@ -358,7 +375,7 @@ class CMapParser(PSStackParser):
                 s1 = nunpack(svar)
                 e1 = nunpack(evar)
                 vlen = len(svar)
-                #assert s1 <= e1
+                # assert s1 <= e1
                 for i in xrange(e1-s1+1):
                     x = sprefix+struct.pack('>L', s1+i)[-vlen:]
                     self.cmap.add_code2cid(x, cid+i)
@@ -381,11 +398,11 @@ class CMapParser(PSStackParser):
             objs = [obj for (__, obj) in self.popall()]
             for (s, e, code) in choplist(3, objs):
                 if (not isinstance(s, str) or not isinstance(e, str) or
-                   len(s) != len(e)):
-                        continue
+                        len(s) != len(e)):
+                    continue
                 s1 = nunpack(s)
                 e1 = nunpack(e)
-                #assert s1 <= e1
+                # assert s1 <= e1
                 if isinstance(code, list):
                     for i in xrange(e1-s1+1):
                         self.cmap.add_cid2unichr(s1+i, code[i])
@@ -426,7 +443,7 @@ def main(argv):
     for fname in args:
         fp = file(fname, 'rb')
         cmap = FileUnicodeMap()
-        #cmap = FileCMap()
+        # cmap = FileCMap()
         CMapParser(cmap, fp).run()
         fp.close()
         cmap.dump()

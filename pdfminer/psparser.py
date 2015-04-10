@@ -1,4 +1,21 @@
 #!/usr/bin/env python
+"""
+psparser
+"""
+
+# pylint: disable=C0111
+# pylint: disable=R0903
+# pylint: disable=C0103
+# pylint: disable=R0902
+# pylint: disable=R0201
+# pylint: disable=W1201
+# pylint: disable=W0201
+# pylint: disable=W0613
+# pylint: disable=R0911
+# pylint: disable=R0912
+# pylint: disable=R0904
+# pylint: disable=E1101
+
 import re
 import logging
 from .utils import choplist
@@ -150,7 +167,10 @@ END_NUMBER = re.compile(br'[^0-9]')
 END_KEYWORD = re.compile(br'[#/%\[\]()<>{}\s]')
 END_STRING = re.compile(br'[()\134]')
 OCT_STRING = re.compile(br'[0-7]')
-ESC_STRING = {b'b': 8, b't': 9, b'n': 10, b'f': 12, b'r': 13, b'(': 40, b')': 41, b'\\': 92}
+ESC_STRING = {
+    b'b': 8, b't': 9, b'n': 10,
+    b'f': 12, b'r': 13, b'(': 40,
+    b')': 41, b'\\': 92}
 
 
 class PSBaseParser(object):
@@ -167,7 +187,9 @@ class PSBaseParser(object):
         return
 
     def __repr__(self):
-        return '<%s: %r, bufpos=%d>' % (self.__class__.__name__, self.fp, self.bufpos)
+        return '<%s: %r, bufpos=%d>' % (
+            self.__class__.__name__,
+            self.fp, self.bufpos)
 
     def flush(self):
         return
@@ -343,13 +365,13 @@ class PSBaseParser(object):
             self.hex = b''
             self._parse1 = self._parse_literal_hex
             return j+1
-        
         try:
             # Try to interpret the token as a utf-8 string
             utoken = self._curtoken.decode('utf-8')
         except UnicodeDecodeError:
             # We failed, there is possibly a corrupt PDF here.
-            if STRICT: raise
+            if STRICT:
+                raise
             utoken = ""
         self._add_token(LIT(utoken))
         self._parse1 = self._parse_main
@@ -436,7 +458,8 @@ class PSBaseParser(object):
             return j+1
         if c == b')':
             self.paren -= 1
-            if self.paren:  # WTF, they said balanced parens need no special treatment.
+            # WTF, they said balanced parens need no special treatment.
+            if self.paren:
                 self._curtoken += c
                 return j+1
         self._add_token(str(self._curtoken))
@@ -545,20 +568,22 @@ class PSStackParser(PSBaseParser):
         self.results.extend(objs)
         return
 
-    def start_type(self, pos, type):
+    def start_type(self, pos, vtype):
         self.context.append((pos, self.curtype, self.curstack))
-        (self.curtype, self.curstack) = (type, [])
+        (self.curtype, self.curstack) = (vtype, [])
         if self.debug:
-            logging.debug('start_type: pos=%r, type=%r' % (pos, type))
+            logging.debug('start_type: pos=%r, type=%r' % (pos, vtype))
         return
 
-    def end_type(self, type):
-        if self.curtype != type:
-            raise PSTypeError('Type mismatch: %r != %r' % (self.curtype, type))
+    def end_type(self, vtype):
+        if self.curtype != vtype:
+            raise PSTypeError(
+                'Type mismatch: %r != %r' % (self.curtype, vtype))
         objs = [obj for (_, obj) in self.curstack]
         (pos, self.curtype, self.curstack) = self.context.pop()
         if self.debug:
-            logging.debug('end_type: pos=%r, type=%r, objs=%r' % (pos, type, objs))
+            logging.debug(
+                'end_type: pos=%r, type=%r, objs=%r' % (pos, vtype, objs))
         return (pos, objs)
 
     def do_keyword(self, pos, token):
@@ -568,7 +593,8 @@ class PSStackParser(PSBaseParser):
         """Yields a list of objects.
 
         Returns keywords, literals, strings, numbers, arrays and dictionaries.
-        Arrays and dictionaries are represented as Python lists and dictionaries.
+        Arrays and dictionaries are represented as Python lists
+        and dictionaries.
         """
         while not self.results:
             (pos, token) = self.nexttoken()
@@ -594,9 +620,13 @@ class PSStackParser(PSBaseParser):
                 try:
                     (pos, objs) = self.end_type('d')
                     if len(objs) % 2 != 0:
-                        raise PSSyntaxError('Invalid dictionary construct: %r' % (objs,))
+                        raise PSSyntaxError(
+                            'Invalid dictionary construct: %r' % (objs,))
                     # construct a Python dictionary.
-                    d = dict((literal_name(k), v) for (k, v) in choplist(2, objs) if v is not None)
+                    d = dict(
+                        (literal_name(k), v)
+                        for (k, v) in choplist(2, objs)
+                        if v is not None)
                     self.push((pos, d))
                 except PSTypeError:
                     if STRICT:
@@ -613,8 +643,9 @@ class PSStackParser(PSBaseParser):
                         raise
             else:
                 if self.debug:
-                    logging.debug('do_keyword: pos=%r, token=%r, stack=%r' % \
-                                  (pos, token, self.curstack))
+                    logging.debug(
+                        'do_keyword: pos=%r, token=%r, stack=%r' %
+                        (pos, token, self.curstack))
                 self.do_keyword(pos, token)
             if self.context:
                 continue
@@ -654,29 +685,34 @@ func/a/b{(c)do*}def
 '''
 
     TOKENS = [
-      (5, KWD(b'begin')), (11, KWD(b'end')), (16, KWD(b'"')), (19, KWD(b'@')),
-      (21, KWD(b'#')), (23, LIT('a')), (25, LIT('BCD')), (30, LIT('Some_Name')),
-      (41, LIT('foo_xbaa')), (54, 0), (56, 1), (59, -2), (62, 0.5),
-      (65, 1.234), (71, b'abc'), (77, b''), (80, b'abc ( def ) ghi'),
-      (98, b'def \x00 4ghi'), (118, b'bach\\slask'), (132, b'foo\nbaa'),
-      (143, b'this % is not a comment.'), (170, b'foo\nbaa'), (180, b'foobaa'),
-      (191, b''), (194, b' '), (199, b'@@ '), (211, b'\xab\xcd\x00\x124\x05'),
-      (226, KWD(b'func')), (230, LIT('a')), (232, LIT('b')),
-      (234, KWD(b'{')), (235, b'c'), (238, KWD(b'do*')), (241, KWD(b'}')),
-      (242, KWD(b'def')), (246, KWD(b'[')), (248, 1), (250, b'z'), (254, KWD(b'!')),
-      (256, KWD(b']')), (258, KWD(b'<<')), (261, LIT('foo')), (266, b'bar'),
-      (272, KWD(b'>>'))
+        (5, KWD(b'begin')), (11, KWD(b'end')), (16, KWD(b'"')),
+        (19, KWD(b'@')),
+        (21, KWD(b'#')), (23, LIT('a')), (25, LIT('BCD')),
+        (30, LIT('Some_Name')),
+        (41, LIT('foo_xbaa')), (54, 0), (56, 1), (59, -2), (62, 0.5),
+        (65, 1.234), (71, b'abc'), (77, b''), (80, b'abc ( def ) ghi'),
+        (98, b'def \x00 4ghi'), (118, b'bach\\slask'), (132, b'foo\nbaa'),
+        (143, b'this % is not a comment.'), (170, b'foo\nbaa'),
+        (180, b'foobaa'),
+        (191, b''), (194, b' '), (199, b'@@ '),
+        (211, b'\xab\xcd\x00\x124\x05'),
+        (226, KWD(b'func')), (230, LIT('a')), (232, LIT('b')),
+        (234, KWD(b'{')), (235, b'c'), (238, KWD(b'do*')), (241, KWD(b'}')),
+        (242, KWD(b'def')), (246, KWD(b'[')), (248, 1), (250, b'z'),
+        (254, KWD(b'!')),
+        (256, KWD(b']')), (258, KWD(b'<<')), (261, LIT('foo')), (266, b'bar'),
+        (272, KWD(b'>>'))
     ]
 
     OBJS = [
-      (23, LIT('a')), (25, LIT('BCD')), (30, LIT('Some_Name')),
-      (41, LIT('foo_xbaa')), (54, 0), (56, 1), (59, -2), (62, 0.5),
-      (65, 1.234), (71, 'abc'), (77, ''), (80, 'abc ( def ) ghi'),
-      (98, 'def \x00 4ghi'), (118, 'bach\\slask'), (132, 'foo\nbaa'),
-      (143, 'this % is not a comment.'), (170, 'foo\nbaa'), (180, 'foobaa'),
-      (191, ''), (194, ' '), (199, '@@ '), (211, '\xab\xcd\x00\x124\x05'),
-      (230, LIT('a')), (232, LIT('b')), (234, ['c']), (246, [1, 'z']),
-      (258, {'foo': 'bar'}),
+        (23, LIT('a')), (25, LIT('BCD')), (30, LIT('Some_Name')),
+        (41, LIT('foo_xbaa')), (54, 0), (56, 1), (59, -2), (62, 0.5),
+        (65, 1.234), (71, 'abc'), (77, ''), (80, 'abc ( def ) ghi'),
+        (98, 'def \x00 4ghi'), (118, 'bach\\slask'), (132, 'foo\nbaa'),
+        (143, 'this % is not a comment.'), (170, 'foo\nbaa'), (180, 'foobaa'),
+        (191, ''), (194, ' '), (199, '@@ '), (211, '\xab\xcd\x00\x124\x05'),
+        (230, LIT('a')), (232, LIT('b')), (234, ['c']), (246, [1, 'z']),
+        (258, {'foo': 'bar'}),
     ]
 
     def get_tokens(self, s):
@@ -711,13 +747,13 @@ func/a/b{(c)do*}def
 
     def test_1(self):
         tokens = self.get_tokens(self.TESTDATA)
-        print (tokens)
+        print tokens
         self.assertEqual(tokens, self.TOKENS)
         return
 
     def test_2(self):
         objs = self.get_objects(self.TESTDATA)
-        print (objs)
+        print objs
         self.assertEqual(objs, self.OBJS)
         return
 

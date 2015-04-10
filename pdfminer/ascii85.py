@@ -6,6 +6,9 @@ This code is in the public domain.
 
 """
 
+# pylint: disable=C0103
+# pylint: disable=W0141
+
 import re
 import struct
 

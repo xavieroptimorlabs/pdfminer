@@ -1,4 +1,15 @@
 #!/usr/bin/env python
+"""
+image
+"""
+
+# pylint: disable=C0111
+# pylint: disable=C0103
+# pylint: disable=R0902
+# pylint: disable=R0903
+# pylint: disable=R0912
+# pylint: disable=R0914
+
 import struct
 import os
 import os.path
@@ -33,9 +44,12 @@ class BMPWriter(object):
         self.linesize = align32((self.width*self.bits+7)//8)
         self.datasize = self.linesize * self.height
         headersize = 14+40+ncols*4
-        info = struct.pack('<IiiHHIIIIII', 40, self.width, self.height, 1, self.bits, 0, self.datasize, 0, 0, ncols, 0)
+        info = struct.pack(
+            '<IiiHHIIIIII', 40, self.width, self.height, 1, self.bits, 0,
+            self.datasize, 0, 0, ncols, 0)
         assert len(info) == 40, len(info)
-        header = struct.pack('<ccIHHI', b'B', b'M', headersize+self.datasize, 0, 0, headersize)
+        header = struct.pack(
+            '<ccIHHI', b'B', b'M', headersize+self.datasize, 0, 0, headersize)
         assert len(header) == 14, len(header)
         self.fp.write(header)
         self.fp.write(info)
@@ -73,8 +87,10 @@ class ImageWriter(object):
         (width, height) = image.srcsize
         if len(filters) == 1 and filters[0][0] in LITERALS_DCT_DECODE:
             ext = '.jpg'
-        elif (image.bits == 1 or
-              image.bits == 8 and image.colorspace in (LITERAL_DEVICE_RGB, LITERAL_DEVICE_GRAY)):
+        elif (
+                image.bits == 1 or
+                image.bits == 8 and
+                image.colorspace in (LITERAL_DEVICE_RGB, LITERAL_DEVICE_GRAY)):
             ext = '.%dx%d.bmp' % (width, height)
         else:
             ext = '.%d.%dx%d.img' % (image.bits, width, height)
