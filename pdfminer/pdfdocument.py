@@ -12,7 +12,6 @@ pdfdocument
 # pylint: disable=W0613
 # pylint: disable=R0913
 # pylint: disable=W0221
-# pylint: disable=W0633
 # pylint: disable=R0912
 # pylint: disable=W0632
 # pylint: disable=R0903
@@ -587,7 +586,7 @@ class PDFDocument(object):
         self.xrefs = []
         self.info = []
         self.catalog = None
-        self.encryption = None
+        self.encryption = (None, None)
         self.decipher = None
         self._parser = None
         self._cached_objs = {}
