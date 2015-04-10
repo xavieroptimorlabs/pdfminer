@@ -20,7 +20,6 @@ More information is available on the Adobe website:
 # pylint: disable=R0912
 # pylint: disable=R0914
 # pylint: disable=R0915
-# pylint: disable=W0612
 
 import sys
 import os
@@ -361,7 +360,7 @@ class CMapParser(PSStackParser):
             self.popall()
             return
         if token is self.KEYWORD_ENDCIDRANGE:
-            objs = [obj for (__, obj) in self.popall()]
+            objs = [obj[1] for obj in self.popall()]
             for (s, e, cid) in choplist(3, objs):
                 if (not isinstance(s, str) or not isinstance(e, str) or
                         not isinstance(cid, int) or len(s) != len(e)):

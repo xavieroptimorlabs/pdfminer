@@ -20,13 +20,12 @@ pylint: disable=R0913
 pylint: disable=R0914
 pylint: disable=R0915
 
-pylint: disable=W0142
+pylint: disable=W0142 pdfinterp.py, Used * or ** magic
 pylint: disable=W0201
 pylint: disable=W0212
 pylint: disable=W0221
 pylint: disable=W0232
 pylint: disable=W0511
-pylint: disable=W0612
 pylint: disable=W0613
 pylint: disable=W0622
 pylint: disable=W0632

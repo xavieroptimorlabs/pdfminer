@@ -16,7 +16,7 @@ pdfinterp
 # pylint: disable=R0913
 # pylint: disable=W0613
 # pylint: disable=W0710
-# pylint: disable=W0142
+# spylint: disable=W0142
 # pylint: disable=W0511
 
 import re
