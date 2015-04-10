@@ -14,7 +14,6 @@ More information is available on the Adobe website:
 # pylint: disable=C0103
 # pylint: disable=R0201
 # pylint: disable=W0613
-# pylint: disable=W1201
 # pylint: disable=R0903
 # pylint: disable=W0120
 # pylint: disable=E1101
@@ -104,7 +103,7 @@ class CMap(CMapBase):
 
     def decode(self, code):
         if self.debug:
-            logging.debug('decode: %r, %r' % (self, code))
+            logging.debug('decode: %r, %r', self, code)
         d = self.code2cid
         for c in code:
             c = ord(c)
@@ -156,7 +155,7 @@ class UnicodeMap(CMapBase):
 
     def get_unichr(self, cid):
         if self.debug:
-            logging.debug('get_unichr: %r, %r' % (self, cid))
+            logging.debug('get_unichr: %r, %r', self, cid)
         return self.cid2unichr[cid]
 
     def dump(self, out=sys.stdout):
@@ -243,7 +242,7 @@ class CMapDB(object):
     @classmethod
     def _load_data(cls, name):
         filename = '%s.pickle.gz' % name
-        logging.info('loading: %r' % name)
+        logging.info('loading: %r', name)
         cmap_paths = (os.environ.get('CMAP_PATH', '/usr/share/pdfminer/'),
                       os.path.join(os.path.dirname(__file__), 'cmap'),)
         for directory in cmap_paths:

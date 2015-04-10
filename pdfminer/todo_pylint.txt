@@ -1,8 +1,6 @@
 pylint: disable=C0103
 pylint: disable=C0111
 
-pylint: disable=E0203
-pylint: disable=E0611
 pylint: disable=E1101
 
 pylint: disable=F0401
@@ -34,5 +32,3 @@ pylint: disable=W0622
 pylint: disable=W0632
 pylint: disable=W0633
 pylint: disable=W0710
-
-pylint: disable=W1201

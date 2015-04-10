@@ -8,7 +8,6 @@ psparser
 # pylint: disable=C0103
 # pylint: disable=R0902
 # pylint: disable=R0201
-# pylint: disable=W1201
 # pylint: disable=W0201
 # pylint: disable=W0613
 # pylint: disable=R0911
@@ -206,7 +205,7 @@ class PSBaseParser(object):
         if not pos:
             pos = self.bufpos+self.charpos
         self.fp.seek(pos)
-        logging.info('poll(%d): %r' % (pos, self.fp.read(n)))
+        logging.info('poll(%d): %r', pos, self.fp.read(n))
         self.fp.seek(pos0)
         return
 
@@ -214,7 +213,7 @@ class PSBaseParser(object):
         """Seeks the parser to the given position.
         """
         if self.debug:
-            logging.debug('seek: %r' % pos)
+            logging.debug('seek: %r', pos)
         self.fp.seek(pos)
         # reset the status for nextline()
         self.bufpos = pos
@@ -265,7 +264,7 @@ class PSBaseParser(object):
                 linebuf += self.buf[self.charpos:]
                 self.charpos = len(self.buf)
         if self.debug:
-            logging.debug('nextline: %r, %r' % (linepos, linebuf))
+            logging.debug('nextline: %r, %r', linepos, linebuf)
         return (linepos, linebuf)
 
     def revreadlines(self):
@@ -523,7 +522,7 @@ class PSBaseParser(object):
             self.charpos = self._parse1(self.buf, self.charpos)
         token = self._tokens.pop(0)
         if self.debug:
-            logging.debug('nexttoken: %r' % (token,))
+            logging.debug('nexttoken: %r', (token,))
         return token
 
 
@@ -564,7 +563,7 @@ class PSStackParser(PSBaseParser):
 
     def add_results(self, *objs):
         if self.debug:
-            logging.debug('add_results: %r' % (objs,))
+            logging.debug('add_results: %r', (objs,))
         self.results.extend(objs)
         return
 
@@ -572,7 +571,7 @@ class PSStackParser(PSBaseParser):
         self.context.append((pos, self.curtype, self.curstack))
         (self.curtype, self.curstack) = (vtype, [])
         if self.debug:
-            logging.debug('start_type: pos=%r, type=%r' % (pos, vtype))
+            logging.debug('start_type: pos=%r, type=%r', pos, vtype)
         return
 
     def end_type(self, vtype):
@@ -583,7 +582,7 @@ class PSStackParser(PSBaseParser):
         (pos, self.curtype, self.curstack) = self.context.pop()
         if self.debug:
             logging.debug(
-                'end_type: pos=%r, type=%r, objs=%r' % (pos, vtype, objs))
+                'end_type: pos=%r, type=%r, objs=%r', pos, vtype, objs)
         return (pos, objs)
 
     def do_keyword(self, pos, token):
@@ -644,8 +643,8 @@ class PSStackParser(PSBaseParser):
             else:
                 if self.debug:
                     logging.debug(
-                        'do_keyword: pos=%r, token=%r, stack=%r' %
-                        (pos, token, self.curstack))
+                        'do_keyword: pos=%r, token=%r, stack=%r',
+                        pos, token, self.curstack)
                 self.do_keyword(pos, token)
             if self.context:
                 continue
@@ -653,7 +652,7 @@ class PSStackParser(PSBaseParser):
                 self.flush()
         obj = self.results.pop(0)
         if self.debug:
-            logging.debug('nextobject: %r' % (obj,))
+            logging.debug('nextobject: %r', (obj,))
         return obj
 
 

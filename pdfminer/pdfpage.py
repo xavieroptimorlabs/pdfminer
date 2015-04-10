@@ -6,7 +6,6 @@ pdfpage
 # pylint: disable=R0902
 # pylint: disable=C0111
 # pylint: disable=C0103
-# pylint: disable=W1201
 # pylint: disable=R0913
 # pylint: disable=R0912
 
@@ -101,13 +100,13 @@ class PDFPage(object):
                     tree[k] = v
             if tree.get('Type') is LITERAL_PAGES and 'Kids' in tree:
                 if cls.debug:
-                    logging.info('Pages: Kids=%r' % tree['Kids'])
+                    logging.info('Pages: Kids=%r', tree['Kids'])
                 for c in list_value(tree['Kids']):
                     for x in search(c, tree):
                         yield x
             elif tree.get('Type') is LITERAL_PAGE:
                 if cls.debug:
-                    logging.info('Page: %r' % tree)
+                    logging.info('Page: %r', tree)
                 yield (objid, tree)
         pages = False
         if 'Pages' in document.catalog:

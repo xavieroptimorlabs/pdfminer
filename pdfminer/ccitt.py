@@ -15,7 +15,6 @@ Bugs: uncompressed mode untested.
 
 # pylint: disable=C0111
 # pylint: disable=C0103
-# pylint: disable=E0203
 # pylint: disable=W0201
 # pylint: disable=E1101
 # pylint: disable=R0902

@@ -11,7 +11,6 @@ Converter
 # pylint: disable=R0913
 # pylint: disable=R0914
 # pylint: disable=R0201
-# pylint: disable=W1201
 # pylint: disable=R0903
 # pylint: disable=R0902
 # pylint: disable=W0102
@@ -136,7 +135,7 @@ class PDFLayoutAnalyzer(PDFTextDevice):
         return item.adv
 
     def handle_undefined_char(self, font, cid):
-        logging.info('undefined: %r, %r' % (font, cid))
+        logging.info('undefined: %r, %r', font, cid)
         return '(cid:%d)' % cid
 
     def receive_layout(self, ltpage):

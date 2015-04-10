@@ -7,7 +7,6 @@ pdfparser
 # pylint: disable=R0912
 # pylint: disable=R0915
 # pylint: disable=W0511
-# pylint: disable=W1201
 
 import logging
 from io import BytesIO
@@ -132,8 +131,8 @@ class PDFParser(PSStackParser):
             # XXX limit objlen not to exceed object boundary
             if self.debug:
                 logging.debug(
-                    'Stream: pos=%d, objlen=%d, dic=%r, data=%r...' %
-                    (pos, objlen, dic, data[:10]))
+                    'Stream: pos=%d, objlen=%d, dic=%r, data=%r...',
+                    pos, objlen, dic, data[:10])
             obj = PDFStream(dic, data, self.doc.decipher)
             self.push((pos, obj))
 

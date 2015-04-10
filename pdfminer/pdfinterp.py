@@ -10,9 +10,7 @@ pdfinterp
 # pylint: disable=W0201
 # pylint: disable=R0201
 # pylint: disable=R0912
-# pylint: disable=W1201
 # pylint: disable=C0103
-# pylint: disable=E0203
 # pylint: disable=E1101
 # pylint: disable=R0904
 # pylint: disable=R0913
@@ -193,8 +191,9 @@ class PDFResourceManager(object):
             font = self._cached_fonts[objid]
         else:
             if self.debug:
-                logging.info('get_font: create: objid=%r, spec=%r' % (
-                    objid, spec))
+                logging.info(
+                    'get_font: create: objid=%r, spec=%r',
+                    objid, spec)
             if STRICT:
                 if spec['Type'] is not LITERAL_FONT:
                     raise PDFFontError('Type is not /Font')
@@ -373,7 +372,7 @@ class PDFPageInterpreter(object):
                 return PREDEFINED_COLORSPACE.get(name)
         for (k, v) in dict_value(resources).iteritems():
             if self.debug:
-                logging.debug('Resource: %r: %r' % (k, v))
+                logging.debug('Resource: %r: %r', k, v)
             if k == 'Font':
                 for (fontid, spec) in dict_value(v).iteritems():
                     objid = None
@@ -836,7 +835,7 @@ class PDFPageInterpreter(object):
                 raise PDFInterpreterError('Undefined xobject id: %r' % xobjid)
             return
         if self.debug:
-            logging.info('Processing xobj: %r' % xobj)
+            logging.info('Processing xobj: %r', xobj)
         subtype = xobj.get('Subtype')
         if subtype is LITERAL_FORM and 'BBox' in xobj:
             interpreter = self.dup()
@@ -862,7 +861,7 @@ class PDFPageInterpreter(object):
 
     def process_page(self, page):
         if self.debug:
-            logging.info('Processing page: %r' % page)
+            logging.info('Processing page: %r', page)
         (x0, y0, x1, y1) = page.mediabox
         if page.rotate == 90:
             ctm = (0, -1, 1, 0, -y0, x1)
@@ -883,8 +882,8 @@ class PDFPageInterpreter(object):
     def render_contents(self, resources, streams, ctm=MATRIX_IDENTITY):
         if self.debug:
             logging.info(
-                'render_contents: resources=%r, streams=%r, ctm=%r' %
-                (resources, streams, ctm))
+                'render_contents: resources=%r, streams=%r, ctm=%r',
+                resources, streams, ctm)
         self.init_resources(resources)
         self.init_state(ctm)
         self.execute(list_value(streams))
@@ -911,17 +910,17 @@ class PDFPageInterpreter(object):
                     if nargs:
                         args = self.pop(nargs)
                         if self.debug:
-                            logging.debug('exec: %s %r' % (name, args))
+                            logging.debug('exec: %s %r', name, args)
                         if len(args) == nargs:
                             func(*args)
                     else:
                         if self.debug:
-                            logging.debug('exec: %s' % name)
+                            logging.debug('exec: %s', name)
                         func()
                 else:
                     if STRICT:
                         raise PDFInterpreterError(
-                            'Unknown operator: %r' % name)
+                            'Unknown operator: %r', name)
             else:
                 self.push(obj)
         return
