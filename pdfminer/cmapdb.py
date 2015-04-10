@@ -15,7 +15,6 @@ More information is available on the Adobe website:
 # pylint: disable=R0201
 # pylint: disable=W0613
 # pylint: disable=R0903
-# pylint: disable=W0120
 # pylint: disable=E1101
 # pylint: disable=R0911
 # pylint: disable=R0912
@@ -245,6 +244,7 @@ class CMapDB(object):
         logging.info('loading: %r', name)
         cmap_paths = (os.environ.get('CMAP_PATH', '/usr/share/pdfminer/'),
                       os.path.join(os.path.dirname(__file__), 'cmap'),)
+        # pylint: disable=W0120
         for directory in cmap_paths:
             path = os.path.join(directory, filename)
             if os.path.exists(path):
@@ -254,6 +254,9 @@ class CMapDB(object):
                 finally:
                     gzfile.close()
         else:
+            # warning pylint W0120 :
+            # this raise will never be used because
+            # there is no break inside the loop
             raise CMapDB.CMapNotFound(name)
 
     @classmethod
