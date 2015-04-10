@@ -17,6 +17,7 @@ Converter
 # pylint: disable=R0902
 # pylint: disable=W0102
 # pylint: disable=R0912
+# pylint: disable=R0904
 
 import logging
 import re

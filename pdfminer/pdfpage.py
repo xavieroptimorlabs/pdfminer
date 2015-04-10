@@ -10,6 +10,7 @@ pdfpage
 # pylint: disable=C0103
 # pylint: disable=W1201
 # pylint: disable=R0913
+# pylint: disable=R0912
 
 import logging
 from .psparser import LIT

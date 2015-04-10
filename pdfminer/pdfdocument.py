@@ -18,6 +18,7 @@ pdfdocument
 # pylint: disable=R0912
 # pylint: disable=W0632
 # pylint: disable=R0903
+# pylint: disable=E0611
 
 import re
 import struct
