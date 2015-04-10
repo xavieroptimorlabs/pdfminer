@@ -7,7 +7,6 @@ This code is in the public domain.
 """
 
 # pylint: disable=C0103
-# pylint: disable=W0141
 
 import re
 import struct
@@ -75,7 +74,7 @@ def asciihexdecode(data):
     'p'
     """
     decode = (lambda hx: chr(int(hx, 16)))
-    out = map(decode, hex_re.findall(data))
+    out = [decode(elem) for elem in hex_re.findall(data)]
     m = trail_re.search(data)
     if m:
         out.append(decode('%c0' % m.group(1)))

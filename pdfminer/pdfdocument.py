@@ -6,7 +6,6 @@ pdfdocument
 # pylint: disable=C0111
 # pylint: disable=R0201
 # pylint: disable=C0103
-# pylint: disable=W0141
 # pylint: disable=W0201
 # pylint: disable=R0902
 # pylint: disable=E1101
@@ -134,7 +133,7 @@ class PDFXRef(PDFBaseXRef):
                 raise PDFNoValidXRef(
                     'Trailer not found: %r: line=%r' % (parser, line))
             try:
-                (start, nobjs) = map(long, f)
+                (start, nobjs) = [long(elem) for elem in f]
             except ValueError:
                 raise PDFNoValidXRef(
                     'Invalid line: %r: line=%r' % (parser, line))
@@ -276,7 +275,7 @@ class PDFXRefStream(PDFBaseXRef):
         if self.debug:
             logging.info(
                 'xref stream: objid=%s, fields=%d,%d,%d',
-                ', '.join(map(repr, self.ranges)),
+                ', '.join([repr(elem) for elem in self.ranges]),
                 self.fl1, self.fl2, self.fl3)
         return
 

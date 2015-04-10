@@ -12,7 +12,6 @@ pdffont
 # pylint: disable=R0914
 # pylint: disable=R0915
 # pylint: disable=R0201
-# pylint: disable=W0141
 # pylint: disable=E1101
 # pylint: disable=W0613
 # pylint: disable=W0232
@@ -523,7 +522,7 @@ class PDFFont(object):
         return False
 
     def decode(self, vbytes):
-        return map(ord, vbytes)
+        return [ord(elem) for elem in vbytes]
 
     def get_ascent(self):
         return self.ascent * self.vscale
